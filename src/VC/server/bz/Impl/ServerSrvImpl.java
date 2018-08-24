@@ -12,6 +12,8 @@ import java.util.List;
 
 import VC.common.SocketConstant;
 import VC.common.Message;
+import VC.server.dao.DAO;
+import VC.common.Book;
 
 public class ServerSrvImpl {
 
@@ -41,6 +43,12 @@ public class ServerSrvImpl {
 			
 			String bookname = rcvmsg.getBookname();
 			
+			Book book = new Book();
+			DAO bookdao = new DAO();
+			book = bookdao.BookQuery(bookname);
+			System.out.println("the received answer is " + book.toString() + ". is that right?");
+			
+			isclosed = true;
 		}
 	}
 	
