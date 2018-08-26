@@ -14,19 +14,20 @@ public class DAO {
 	private static String url;
 	static String user = "";
 	static String password = null;
-	
+
 	static {
 		String dbpath = new File("").getAbsolutePath().replace('\\', '/') + "/Database2.accdb";
-	//	url = "jdbc:odbc:DRIVER={Microsoft Access Driver (*.mdb, *.accdb)};DBQ="+dbpath;
-	//	url = "jdbc:ucanaccess://" + dbpath;
+		// url = "jdbc:odbc:DRIVER={Microsoft Access Driver (*.mdb,
+		// *.accdb)};DBQ="+dbpath;
+		// url = "jdbc:ucanaccess://" + dbpath;
 		url = "jdbc:access:/" + dbpath;
-		//System.out.println(url);
+		// System.out.println(url);
 	}
 
 	public DAO() {
-		
+
 	}
-	
+
 	public Book BookQuery(String bookname) {
 		Connection ct = null;
 		PreparedStatement ps = null;
@@ -43,15 +44,16 @@ public class DAO {
 			ps = ct.prepareStatement(sql);
 			ps.setString(1, bookname);
 			rs = ps.executeQuery();
-			
-			BookN = rs.getString("bookname");
-			BookP = rs.getString("bookpublisher");
-			BookA = rs.getString("bookauthor");
 
-			book.setBookName(BookN);
-			book.setBookAuthor(BookA);
-			book.setBookPublisher(BookP);
-			
+			while (rs.next()) {
+				BookN = rs.getString("bookname");
+				BookP = rs.getString("bookpublisher");
+				BookA = rs.getString("bookauthor");
+
+				book.setBookName(BookN);
+				book.setBookAuthor(BookA);
+				book.setBookPublisher(BookP);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

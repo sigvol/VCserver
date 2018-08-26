@@ -42,11 +42,19 @@ public class ServerSrvImpl {
 			rcvmsg = (Message) ois.readObject();
 			
 			String bookname = rcvmsg.getBookname();
+			System.out.println(bookname);
 			
 			Book book = new Book();
 			DAO bookdao = new DAO();
 			book = bookdao.BookQuery(bookname);
 			System.out.println("the received answer is " + book.toString() + ". is that right?");
+			
+			Message sendmsg = new Message();
+			sendmsg.setBook(book);
+			ObjectOutputStream oos = new ObjectOutputStream(rsvsocket.getOutputStream());
+			oos.writeObject(sendmsg);
+			oos.flush();
+			
 			
 			isclosed = true;
 		}
